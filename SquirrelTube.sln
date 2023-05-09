@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquirrelTube", "SquirrelTube\SquirrelTube.csproj", "{44A1CAB2-E9F0-4BAD-BD8D-EB6A8552DA45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiNetMonogame", "ImGuiNetMonogame\ImGuiNetMonogame.csproj", "{0EC9F898-955B-44CF-99CF-D37AD33D616F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44A1CAB2-E9F0-4BAD-BD8D-EB6A8552DA45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44A1CAB2-E9F0-4BAD-BD8D-EB6A8552DA45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44A1CAB2-E9F0-4BAD-BD8D-EB6A8552DA45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44A1CAB2-E9F0-4BAD-BD8D-EB6A8552DA45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EC9F898-955B-44CF-99CF-D37AD33D616F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EC9F898-955B-44CF-99CF-D37AD33D616F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EC9F898-955B-44CF-99CF-D37AD33D616F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EC9F898-955B-44CF-99CF-D37AD33D616F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {273828B5-4296-4D90-82E7-A0B7AC1EE968}
+	EndGlobalSection
+EndGlobal
