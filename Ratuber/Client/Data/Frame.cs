@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 
-namespace Rattuber.Client.Data
+namespace Ratuber.Client.Data
 {
     public class Frame : UniqueObject, IDisposable
     {

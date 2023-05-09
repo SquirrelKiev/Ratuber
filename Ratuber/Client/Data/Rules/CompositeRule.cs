@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Rattuber.Client.Data.Rules
+namespace Ratuber.Client.Data.Rules
 {
     [JsonConverter(typeof(RuleExpressionConverter))]
     public class CompositeRule : Rule

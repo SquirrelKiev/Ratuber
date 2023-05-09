@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace Rattuber.Client.Data.Rules
+namespace Ratuber.Client.Data.Rules
 {
     public abstract class Rule : UniqueObject
     { }

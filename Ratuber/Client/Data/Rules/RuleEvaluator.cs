@@ -1,4 +1,4 @@
-﻿namespace Rattuber.Client.Data.Rules
+﻿namespace Ratuber.Client.Data.Rules
 {
     using System;
     using System.Collections.Generic;

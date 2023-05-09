@@ -1,4 +1,4 @@
-﻿namespace Rattuber.Client
+﻿namespace Ratuber.Client
 {
     public static class Entrypoint
     {

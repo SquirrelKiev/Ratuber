@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Rattuber.Client.Data
+namespace Ratuber.Client.Data
 {
     internal static class CurrentState
     {

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 
-namespace Rattuber.Client.Data.Rules
+namespace Ratuber.Client.Data.Rules
 {
     public enum Operator
     {

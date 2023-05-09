@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Rattuber.Client.Data
+namespace Ratuber.Client.Data
 {
     public class MicrophoneConfig : UniqueObject
     {

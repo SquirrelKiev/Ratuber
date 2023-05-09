@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ImGuiNET.MonoGame;
 using System;
-using Rattuber.Client.Data;
-using Rattuber.Client.Data.Rules;
+using Ratuber.Client.Data;
+using Ratuber.Client.Data.Rules;
 
-namespace Rattuber.Client
+namespace Ratuber.Client
 {
     public class TubeClient : Game
     {

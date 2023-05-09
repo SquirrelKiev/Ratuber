@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rattuber.Client
+namespace Ratuber.Client
 {
     public abstract class UniqueObject
     {

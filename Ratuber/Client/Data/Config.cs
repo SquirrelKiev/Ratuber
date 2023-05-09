@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using Rattuber.Client.Data.Rules;
+using Ratuber.Client.Data.Rules;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 
-namespace Rattuber.Client.Data
+namespace Ratuber.Client.Data
 {
     [Serializable]
     public class Config

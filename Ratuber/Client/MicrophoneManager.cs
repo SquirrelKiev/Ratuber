@@ -2,11 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
-using Rattuber.Client.Data;
+using Ratuber.Client.Data;
 using System;
 using System.Linq;
 
-namespace Rattuber.Client
+namespace Ratuber.Client
 {
     public class MicrophoneManager : UniqueObject
     {

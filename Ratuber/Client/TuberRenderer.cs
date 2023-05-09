@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Rattuber.Client.Data;
+using Ratuber.Client.Data;
 
-namespace Rattuber.Client
+namespace Ratuber.Client
 {
     public class TuberRenderer
     {

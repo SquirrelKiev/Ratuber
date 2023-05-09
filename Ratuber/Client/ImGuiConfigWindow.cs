@@ -1,7 +1,7 @@
 ﻿using ImGuiNET;
-using Rattuber.Client.Data;
+using Ratuber.Client.Data;
 
-namespace Rattuber.Client
+namespace Ratuber.Client
 {
     public static class ImGuiConfigWindow
     {

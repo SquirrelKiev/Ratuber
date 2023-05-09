@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using ImGuiNET;
 using ImGuiNET.MonoGame;
 using Microsoft.Xna.Framework.Graphics;
-using Rattuber.Client.Data.Rules;
+using Ratuber.Client.Data.Rules;
 
-namespace Rattuber.Client.Data
+namespace Ratuber.Client.Data
 {
     [Serializable]
     public class Layer : UniqueObject

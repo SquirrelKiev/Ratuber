@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Rattuber.Client.Data.Rules
+namespace Ratuber.Client.Data.Rules
 {
     public static class RuleEditor
     {
