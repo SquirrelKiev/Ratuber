@@ -1,4 +1,4 @@
-﻿namespace SquirrelTube.Client
+﻿namespace Rattuber.Client
 {
     public static class Entrypoint
     {

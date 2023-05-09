@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 
-namespace SquirrelTube.Client.Data.Rules
+namespace Rattuber.Client.Data.Rules
 {
     public enum Operator
     {

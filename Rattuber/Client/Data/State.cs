@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SquirrelTube.Client.Data
+namespace Rattuber.Client.Data
 {
     public class State
     {

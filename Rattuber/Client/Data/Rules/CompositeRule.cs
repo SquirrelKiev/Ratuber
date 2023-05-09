@@ -2,8 +2,9 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace SquirrelTube.Client.Data.Rules
+namespace Rattuber.Client.Data.Rules
 {
+    [JsonConverter(typeof(RuleExpressionConverter))]
     public class CompositeRule : Rule
     {
         [JsonProperty("logicGate")]
@@ -11,7 +12,7 @@ namespace SquirrelTube.Client.Data.Rules
         public LogicGate LogicGate { get; set; }
 
         [JsonProperty("subRules")]
-        public List<Rule> SubRules { get; set; }
+        public List<Rule> SubRules { get; private set; }
 
         public CompositeRule() : base()
         {

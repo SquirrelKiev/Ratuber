@@ -2,11 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
-using SquirrelTube.Client.Data;
+using Rattuber.Client.Data;
 using System;
 using System.Linq;
 
-namespace SquirrelTube.Client
+namespace Rattuber.Client
 {
     public class MicrophoneManager : UniqueObject
     {
@@ -87,7 +87,7 @@ namespace SquirrelTube.Client
 
             var currentMicrophone = Array.IndexOf(validMics, CurrentMicrophone);
 
-            ImGui.Combo($"Microphone##{GetHashCode()}", ref currentMicrophone, validMics.Select(x => x.Name).ToArray(), validMics.Length);
+            ImGui.Combo($"Microphone##{GetUniqueId()}", ref currentMicrophone, validMics.Select(x => x.Name).ToArray(), validMics.Length);
 
             if (CurrentMicrophone != validMics[currentMicrophone])
             {
@@ -104,7 +104,7 @@ namespace SquirrelTube.Client
             ImGui.SameLine();
             ImGui.Text("Microphone Level (DbFS)");
 
-            ImGui.SliderFloat($"Db Reference##{GetHashCode()}", ref MicConfig.dbReference, (float)minDb, 0);
+            ImGui.SliderFloat($"Db Reference##{GetUniqueId()}", ref MicConfig.dbReference, (float)minDb, 0);
         }
     }
 }

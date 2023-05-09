@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SquirrelTube.Client
+namespace Rattuber.Client
 {
     public class AnimationTracker
     {

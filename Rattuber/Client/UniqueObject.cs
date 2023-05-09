@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SquirrelTube.Client
+namespace Rattuber.Client
 {
     public abstract class UniqueObject
     {
@@ -11,7 +11,7 @@ namespace SquirrelTube.Client
             id = Guid.NewGuid();
         }
 
-        public override int GetHashCode()
+        public int GetUniqueId()
         {
             return id.GetHashCode();
         }

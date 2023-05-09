@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 
-namespace SquirrelTube.Client.Data
+namespace Rattuber.Client.Data
 {
     public class Frame : UniqueObject, IDisposable
     {

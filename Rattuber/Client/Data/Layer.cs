@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using ImGuiNET;
 using ImGuiNET.MonoGame;
 using Microsoft.Xna.Framework.Graphics;
-using SquirrelTube.Client.Data.Rules;
+using Rattuber.Client.Data.Rules;
 
-namespace SquirrelTube.Client.Data
+namespace Rattuber.Client.Data
 {
     [Serializable]
     public class Layer : UniqueObject
@@ -56,19 +56,19 @@ namespace SquirrelTube.Client.Data
 
         private static void RenderLayerEditor(Layer layer)
         {
-            if (ImGui.TreeNode($"Rules##rules{layer.GetHashCode()}"))
+            if (ImGui.TreeNode($"Rules##rules{layer.GetUniqueId()}"))
             {
                 RuleEditor.RenderCompositeRule(layer.rules);
 
                 ImGui.TreePop();
             }
-            if (ImGui.TreeNode($"Animation Frames##frames{layer.GetHashCode()}"))
+            if (ImGui.TreeNode($"Animation Frames##frames{layer.GetUniqueId()}"))
             {
                 for (int i = 0; i < layer.frames.Count; i++)
                 {
                     RenderFrameEditor(layer, layer.frames[i]);
 
-                    if (ImGui.Button($"Remove Frame##{layer.frames[i].GetHashCode()}"))
+                    if (ImGui.Button($"Remove Frame##{layer.frames[i].GetUniqueId()}"))
                     {
                         layer.frames.RemoveAt(i);
                     }
@@ -78,7 +78,7 @@ namespace SquirrelTube.Client.Data
 
                 
                  
-                if (ImGui.Button($"Add Frame##{layer.GetHashCode()}"))
+                if (ImGui.Button($"Add Frame##{layer.GetUniqueId()}"))
                 {
                     layer.frames.Add(new Frame().Initialize(layer.device, layer.imGuiRenderer));
                 }
@@ -96,9 +96,9 @@ namespace SquirrelTube.Client.Data
             ImGui.SameLine();
 
             ImGui.BeginGroup();
-            ImGui.InputText($"##framePath{frame.GetHashCode()}", ref frame.texturePath, 32767);
+            ImGui.InputText($"##framePath{frame.GetUniqueId()}", ref frame.texturePath, 32767);
 
-            if (ImGui.Button($"Browse##{frame.GetHashCode()}"))
+            if (ImGui.Button($"Browse##{frame.GetUniqueId()}"))
             {
                 var result = NativeFileDialogSharp.Dialog.FileOpen();
 

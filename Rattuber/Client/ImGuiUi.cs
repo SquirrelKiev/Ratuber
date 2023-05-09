@@ -1,7 +1,7 @@
 ﻿using ImGuiNET;
-using SquirrelTube.Client.Data;
+using Rattuber.Client.Data;
 
-namespace SquirrelTube.Client
+namespace Rattuber.Client
 {
     public static class ImGuiConfigWindow
     {
@@ -21,7 +21,7 @@ namespace SquirrelTube.Client
                     {
                         var layer = Config.CurrentConfig.Layers[i];
 
-                        if (ImGui.TreeNode($"Layer {i}##{layer.GetHashCode()}"))
+                        if (ImGui.TreeNode($"Layer {i}##{layer.GetUniqueId()}"))
                         {
                             layer.RenderLayerEditor();
 

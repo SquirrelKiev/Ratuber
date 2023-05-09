@@ -1,4 +1,4 @@
-﻿namespace SquirrelTube.Client.Data.Rules
+﻿namespace Rattuber.Client.Data.Rules
 {
     using System;
     using System.Collections.Generic;

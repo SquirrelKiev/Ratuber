@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquirrelTube", "SquirrelTube\SquirrelTube.csproj", "{44A1CAB2-E9F0-4BAD-BD8D-EB6A8552DA45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rattuber", "SquirrelTube\Rattuber.csproj", "{44A1CAB2-E9F0-4BAD-BD8D-EB6A8552DA45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImGuiNetMonogame", "ImGuiNetMonogame\ImGuiNetMonogame.csproj", "{0EC9F898-955B-44CF-99CF-D37AD33D616F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImGuiNetMonogame", "ImGuiNetMonogame\ImGuiNetMonogame.csproj", "{0EC9F898-955B-44CF-99CF-D37AD33D616F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

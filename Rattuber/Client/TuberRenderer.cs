@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SquirrelTube.Client.Data;
+using Rattuber.Client.Data;
 
-namespace SquirrelTube.Client
+namespace Rattuber.Client
 {
     public class TuberRenderer
     {

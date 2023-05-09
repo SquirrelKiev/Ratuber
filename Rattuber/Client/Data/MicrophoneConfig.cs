@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace SquirrelTube.Client.Data
+namespace Rattuber.Client.Data
 {
     public class MicrophoneConfig : UniqueObject
     {

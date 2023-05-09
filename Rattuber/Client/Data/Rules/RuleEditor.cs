@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace SquirrelTube.Client.Data.Rules
+namespace Rattuber.Client.Data.Rules
 {
     public static class RuleEditor
     {
@@ -11,7 +11,7 @@ namespace SquirrelTube.Client.Data.Rules
             string[] logicGates = { "And", "Or" };
             int currentLogicGate = (int)compositeRule.LogicGate;
 
-            if (ImGui.Combo($"Logic Gate##logicGate{compositeRule.GetHashCode()}", ref currentLogicGate, logicGates, logicGates.Length))
+            if (ImGui.Combo($"Logic Gate##logicGate{compositeRule.GetUniqueId()}", ref currentLogicGate, logicGates, logicGates.Length))
             {
                 compositeRule.LogicGate = (LogicGate)currentLogicGate;
             }
@@ -22,7 +22,7 @@ namespace SquirrelTube.Client.Data.Rules
                 Rule subRule = compositeRule.SubRules[i];
                 if (subRule is SingleRule rule)
                 {
-                    if (ImGui.TreeNode($"Rule {i}##treeRule{subRule.GetHashCode()}"))
+                    if (ImGui.TreeNode($"Rule {i}##treeRule{subRule.GetUniqueId()}"))
                     {
                         RenderSingleRule(rule);
                         if (ImGui.Button($"Remove Rule {i}"))
@@ -35,7 +35,7 @@ namespace SquirrelTube.Client.Data.Rules
                 }
                 else if (subRule is CompositeRule childCompositeRule)
                 {
-                    if (ImGui.TreeNode($"Composite Rule {i}##treeComp{subRule.GetHashCode()}"))
+                    if (ImGui.TreeNode($"Composite Rule {i}##treeComp{subRule.GetUniqueId()}"))
                     {
                         ImGui.Indent();
                         RenderCompositeRule(childCompositeRule);
@@ -68,7 +68,7 @@ namespace SquirrelTube.Client.Data.Rules
             string[] conditions = RuleEvaluator.inputs.Keys.ToArray();
             int currentCondition = Array.IndexOf(conditions, rule.Condition);
 
-            if (ImGui.Combo($"Condition##condition{rule.GetHashCode()}", ref currentCondition, conditions, conditions.Length))
+            if (ImGui.Combo($"Condition##condition{rule.GetUniqueId()}", ref currentCondition, conditions, conditions.Length))
             {
                 rule.Condition = conditions[currentCondition];
             }
@@ -76,12 +76,12 @@ namespace SquirrelTube.Client.Data.Rules
             string[] operators = Enum.GetNames(typeof(Operator));
             int currentOperator = (int)rule.Operator;
 
-            if (ImGui.Combo($"Operator##operator{rule.GetHashCode()}", ref currentOperator, operators, operators.Length))
+            if (ImGui.Combo($"Operator##operator{rule.GetUniqueId()}", ref currentOperator, operators, operators.Length))
             {
                 rule.Operator = (Operator)currentOperator;
             }
             var result = rule.Result;
-            ImGui.InputText($"Result##result{rule.GetHashCode()}", ref result, 100);
+            ImGui.InputText($"Result##result{rule.GetUniqueId()}", ref result, 100);
             rule.Result = result;
 
             ImGui.Text(TestRule(rule).ToString());

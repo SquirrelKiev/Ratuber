@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using SquirrelTube.Client.Data.Rules;
+using Rattuber.Client.Data.Rules;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 
-namespace SquirrelTube.Client.Data
+namespace Rattuber.Client.Data
 {
     [Serializable]
     public class Config

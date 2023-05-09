@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ImGuiNET.MonoGame;
 using System;
-using SquirrelTube.Client.Data;
-using SquirrelTube.Client.Data.Rules;
+using Rattuber.Client.Data;
+using Rattuber.Client.Data.Rules;
 
-namespace SquirrelTube.Client
+namespace Rattuber.Client
 {
     public class TubeClient : Game
     {
