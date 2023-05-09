@@ -37,16 +37,6 @@ namespace SquirrelTube.Client
 
             base.Initialize();
 
-            Config.LoadConfig();
-
-            Config.OnConfigUpdated += () =>
-            {
-                foreach (var layer in Config.CurrentConfig.Layers)
-                {
-                    layer.Initialize(GraphicsDevice);
-                }
-            };
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             guiRenderer = new ImGuiRenderer(this);
@@ -54,6 +44,18 @@ namespace SquirrelTube.Client
             tuberRenderer = new TuberRenderer(this);
 
             guiRenderer.RebuildFontAtlas();
+
+            Config.LoadConfig();
+
+            Config.OnConfigUpdated += () =>
+            {
+                foreach (var layer in Config.CurrentConfig.Layers)
+                {
+                    layer.Initialize(GraphicsDevice, guiRenderer);
+                }
+            };
+
+            Config.CurrentConfig.Initialize();
         }
 
         private void TubeClient_Exiting(object sender, EventArgs e)
