@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 using Ratuber.Client.Data.Rules;
 using System;
 using System.Collections.ObjectModel;
@@ -14,6 +15,10 @@ namespace Ratuber.Client.Data
         public ObservableCollection<MicrophoneConfig> MicConfigs { get; private set; } = new();
 
         public ObservableCollection<LayerGroup> LayerGroups { get; private set; } = new();
+
+        public bool spoutEnabled = true;
+
+        public Color backgroundColor = Color.CornflowerBlue;
         #endregion
 
         public static Config CurrentConfig { get; private set; }

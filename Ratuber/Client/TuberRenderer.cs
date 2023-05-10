@@ -8,8 +8,6 @@ namespace Ratuber.Client
     {
         private Game game;
 
-        private Point size;
-        private Point position;
         private Rectangle drawRect;
 
         public TuberRenderer(Game game)
@@ -21,31 +19,41 @@ namespace Ratuber.Client
             OnWindowResize();
         }
 
+        public static Rectangle GetSafeDrawRect(int width, int height)
+        {
+            var size = new Point(height, height);
+
+            var position = new Point(width / 2 - size.X / 2, height - size.Y);
+
+            return new Rectangle(position, size);
+        }
+
         public void OnWindowResize()
         {
-            size = new Point(game.Window.ClientBounds.Height, game.Window.ClientBounds.Height);
-
-            position = new Point(game.Window.ClientBounds.Width / 2 - size.X / 2, game.Window.ClientBounds.Height - size.Y);
-
-            drawRect = new Rectangle(position, size);
+            drawRect = GetSafeDrawRect(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            Draw(spriteBatch, drawRect);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Rectangle drawRect)
+        {
             foreach (var layerGroup in Config.CurrentConfig.LayerGroups)
             {
-                if (layerGroup.ShouldRender())
-                {
-                    foreach (var layer in layerGroup.layers)
-                    {
-                        if (layer.ShouldRender())
-                        {
-                            var tex = layer.GetNextTexture();
+                if (!layerGroup.ShouldRender())
+                    continue;
 
-                            if (tex != null)
-                                spriteBatch.Draw(tex, drawRect, tex.Bounds, Color.White);
-                        }
-                    }
+                foreach (var layer in layerGroup.layers)
+                {
+                    if (!layer.ShouldRender())
+                        continue;
+
+                    var tex = layer.GetNextTexture();
+
+                    if (tex != null)
+                        spriteBatch.Draw(tex, drawRect, tex.Bounds, Color.White);
                 }
             }
         }

@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ImGuiNetMonogame\ImGuiNetMonogame.csproj" />
+    <ProjectReference Include="..\SpoutMonoGame\SpoutMonoGame.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="fallback.png">

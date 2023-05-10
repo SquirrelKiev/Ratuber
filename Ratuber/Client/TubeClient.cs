@@ -12,12 +12,16 @@ namespace Ratuber.Client
     public class TubeClient : Game
     {
         public ImGuiRenderer GuiRenderer { get; private set; }
+
+        private const int SpoutFrameSize = 2048;
         private TuberRenderer tuberRenderer;
 
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
         private bool firstTimeInit = true;
+        private RenderTarget2D spoutTarget;
+        private Spout.Interop.SpoutSender spoutSender;
 
         public TubeClient()
         {
@@ -65,6 +69,11 @@ namespace Ratuber.Client
             };
 
             Config.CurrentConfig.Initialize();
+
+            spoutTarget = new RenderTarget2D(GraphicsDevice, SpoutFrameSize, SpoutFrameSize);
+
+            spoutSender = new Spout.Interop.SpoutSender();
+            spoutSender.CreateSender("Ratuber", SpoutFrameSize, SpoutFrameSize, 0);
         }
 
         private void TubeClient_Exiting(object sender, EventArgs e)
@@ -94,12 +103,22 @@ namespace Ratuber.Client
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.SetRenderTarget(spoutTarget);
+
+            GraphicsDevice.Clear(Color.Transparent);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
+            tuberRenderer.Draw(spriteBatch, TuberRenderer.GetSafeDrawRect(SpoutFrameSize, SpoutFrameSize));
+            spriteBatch.End();
 
+            GraphicsDevice.SetRenderTarget(null);
+
+            Spout.MonoGame.SpoutMono.SendTexture2D(spoutSender, spoutTarget);
+
+            GraphicsDevice.Clear(Config.CurrentConfig.backgroundColor);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp);
             tuberRenderer.Draw(spriteBatch);
-
             spriteBatch.End();
 
             base.Draw(gameTime);
