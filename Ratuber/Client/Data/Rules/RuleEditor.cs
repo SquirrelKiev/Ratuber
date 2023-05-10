@@ -6,7 +6,21 @@ namespace Ratuber.Client.Data.Rules
 {
     public static class RuleEditor
     {
-        public static void RenderCompositeRule(CompositeRule compositeRule)
+        public static void RenderRule(Rule rule)
+        {
+            ImGui.Separator();
+
+            if (rule is CompositeRule compositeRule)
+            {
+                RenderCompositeRule(compositeRule);
+            }
+            else if (rule is SingleRule singleRule)
+            {
+                RenderSingleRule(singleRule);
+            }
+        }
+
+        private static void RenderCompositeRule(CompositeRule compositeRule)
         {
             string[] logicGates = { "And", "Or" };
             int currentLogicGate = (int)compositeRule.LogicGate;
@@ -20,33 +34,16 @@ namespace Ratuber.Client.Data.Rules
             for (int i = 0; i < compositeRule.SubRules.Count; i++)
             {
                 Rule subRule = compositeRule.SubRules[i];
-                if (subRule is SingleRule rule)
+
+                if (ImGui.TreeNode($"{(subRule is CompositeRule ? "Composite " : "")}Rule {i}##treeRule{subRule.GetUniqueId()}"))
                 {
-                    if (ImGui.TreeNode($"Rule {i}##treeRule{subRule.GetUniqueId()}"))
+                    RenderRule(subRule);
+                    if (ImGui.Button($"Remove Rule {i}"))
                     {
-                        RenderSingleRule(rule);
-                        if (ImGui.Button($"Remove Rule {i}"))
-                        {
-                            compositeRule.SubRules.RemoveAt(i);
-                            break;
-                        }
-                        ImGui.TreePop();
+                        compositeRule.SubRules.RemoveAt(i);
+                        break;
                     }
-                }
-                else if (subRule is CompositeRule childCompositeRule)
-                {
-                    if (ImGui.TreeNode($"Composite Rule {i}##treeComp{subRule.GetUniqueId()}"))
-                    {
-                        ImGui.Indent();
-                        RenderCompositeRule(childCompositeRule);
-                        if (ImGui.Button($"Remove Rule {i}"))
-                        {
-                            compositeRule.SubRules.RemoveAt(i);
-                            break;
-                        }
-                        ImGui.Unindent();
-                        ImGui.TreePop();
-                    }
+                    ImGui.TreePop();
                 }
             }
 
@@ -59,33 +56,40 @@ namespace Ratuber.Client.Data.Rules
             {
                 compositeRule.AddSubRule(new CompositeRule());
             }
-
-            ImGui.Text(TestRule(compositeRule).ToString());
         }
 
-        public static void RenderSingleRule(SingleRule rule)
+        private static void RenderSingleRule(SingleRule rule)
         {
             string[] conditions = RuleEvaluator.inputs.Keys.ToArray();
             int currentCondition = Array.IndexOf(conditions, rule.Condition);
 
-            if (ImGui.Combo($"Condition##condition{rule.GetUniqueId()}", ref currentCondition, conditions, conditions.Length))
+            float comboWidth = ImGui.GetContentRegionAvail().X / 3;
+
+            ImGui.SetNextItemWidth(comboWidth);
+            if (ImGui.Combo($"##condition{rule.GetUniqueId()}", ref currentCondition, conditions, conditions.Length))
             {
                 rule.Condition = conditions[currentCondition];
             }
 
+            ImGui.SameLine();
+
             string[] operators = Enum.GetNames(typeof(Operator));
             int currentOperator = (int)rule.Operator;
 
-            if (ImGui.Combo($"Operator##operator{rule.GetUniqueId()}", ref currentOperator, operators, operators.Length))
+            ImGui.SetNextItemWidth(comboWidth);
+            if (ImGui.Combo($"##operator{rule.GetUniqueId()}", ref currentOperator, operators, operators.Length))
             {
                 rule.Operator = (Operator)currentOperator;
             }
-            var result = rule.Result;
-            ImGui.InputText($"Result##result{rule.GetUniqueId()}", ref result, 100);
-            rule.Result = result;
 
-            ImGui.Text(TestRule(rule).ToString());
+            ImGui.SameLine();
+
+            var result = rule.Result;
+            ImGui.SetNextItemWidth(comboWidth);
+            ImGui.InputText($"##result{rule.GetUniqueId()}", ref result, 100);
+            rule.Result = result;
         }
+
 
         private static bool TestRule(Rule rule)
         {

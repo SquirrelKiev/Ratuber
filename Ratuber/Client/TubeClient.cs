@@ -5,6 +5,7 @@ using ImGuiNET.MonoGame;
 using System;
 using Ratuber.Client.Data;
 using Ratuber.Client.Data.Rules;
+using ImGuiNET;
 
 namespace Ratuber.Client
 {
@@ -13,11 +14,13 @@ namespace Ratuber.Client
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        private ImGuiRenderer guiRenderer;
+        public ImGuiRenderer guiRenderer { get; private set; }
         private TuberRenderer tuberRenderer;
 
         public TubeClient()
         {
+            CurrentState.client = this;
+
             graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
@@ -45,11 +48,13 @@ namespace Ratuber.Client
 
             guiRenderer.RebuildFontAtlas();
 
+            ImGuiHelpers.Initialize(GraphicsDevice, guiRenderer);
+
             Config.LoadConfig();
 
             Config.OnConfigUpdated += () =>
             {
-                foreach (var layer in Config.CurrentConfig.Layers)
+                foreach (var layer in Config.CurrentConfig.LayerGroups)
                 {
                     layer.Initialize(GraphicsDevice, guiRenderer);
                 }
@@ -71,6 +76,11 @@ namespace Ratuber.Client
             foreach (var micMan in CurrentState.MicrophoneManagers)
             {
                 micMan.Update(gameTime);
+            }
+
+            foreach (var layer in Config.CurrentConfig.LayerGroups)
+            {
+                layer.Update(gameTime);
             }
 
             RuleEvaluator.UpdateInputDictionary();

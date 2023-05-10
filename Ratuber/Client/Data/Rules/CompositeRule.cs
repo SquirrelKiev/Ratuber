@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace Ratuber.Client.Data.Rules
 {
-    [JsonConverter(typeof(RuleExpressionConverter))]
     public class CompositeRule : Rule
     {
         [JsonProperty("logicGate")]
@@ -17,6 +16,8 @@ namespace Ratuber.Client.Data.Rules
         public CompositeRule() : base()
         {
             SubRules = new List<Rule>();
+
+            ruleType = RuleType.Composite;
         }
 
         public void AddSubRule(Rule subRule)

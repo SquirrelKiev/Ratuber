@@ -18,6 +18,13 @@
             {
                 inputs[$"Microphone {i} Decibels"] = CurrentState.MicrophoneManagers[i].DbVal.ToString();
             }
+
+            for (int i = 0; i < Config.CurrentConfig.LayerGroups.Count; i++)
+            {
+                var layerGroup = Config.CurrentConfig.LayerGroups[i];
+
+                inputs[$"LG {layerGroup.name}"] = (EvaluateRule(layerGroup.rules) ? 1 : 0).ToString();
+            }
         }
 
         public static bool EvaluateRule(Rule ruleBase)

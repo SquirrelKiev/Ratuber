@@ -7,6 +7,10 @@ namespace Ratuber.Client
     {
         public static void ConfigLayout()
         {
+            ImGui.ShowDemoWindow();
+
+            ImGui.SetNextWindowSizeConstraints(new System.Numerics.Vector2(375, 400), new System.Numerics.Vector2(float.MaxValue, float.MaxValue));
+
             ImGui.Begin("Config");
             if (ImGui.BeginTabBar("Config"))
             {
@@ -15,35 +19,48 @@ namespace Ratuber.Client
                     RenderAllMicrophoneConfigs();
                     ImGui.EndTabItem();
                 }
-                if (ImGui.BeginTabItem("Layer Editor"))
+                if (ImGui.BeginTabItem("Layer Group Editor"))
                 {
-                    for (int i = 0; i < Config.CurrentConfig.Layers.Count; i++)
-                    {
-                        var layer = Config.CurrentConfig.Layers[i];
-
-                        if (ImGui.TreeNode($"Layer {i}##{layer.GetUniqueId()}"))
-                        {
-                            layer.RenderLayerEditor();
-
-                            if (ImGui.Button("Remove Layer"))
-                            {
-                                Config.CurrentConfig.Layers.Remove(layer);
-                            }
-
-                            ImGui.TreePop();
-                        }
-                    }
-
-                    if (ImGui.Button("Add Layer"))
-                    {
-                        Config.CurrentConfig.Layers.Add(new Layer());
-                    }
+                    RenderAllLayerGroupEditors();
                     ImGui.EndTabItem();
                 }
 
                 ImGui.EndTabBar();
             }
             ImGui.End();
+        }
+
+        private static void RenderAllLayerGroupEditors()
+        {
+            for (int i = 0; i < Config.CurrentConfig.LayerGroups.Count; i++)
+            {
+                var layerGroup = Config.CurrentConfig.LayerGroups[i];
+
+                ImGui.Text(i.ToString());
+
+                ImGui.SameLine();
+
+                ImGuiHelpers.MoveElementArrows(Config.CurrentConfig.LayerGroups, layerGroup, true);
+
+                ImGui.SameLine();
+
+                if (ImGui.TreeNode($"{layerGroup.GetUniqueId()}", $"Layer Group - {layerGroup.name}"))
+                {
+                    layerGroup.RenderLayerGroupEditor();
+
+                    if (ImGui.Button("Remove Layer Group"))
+                    {
+                        Config.CurrentConfig.LayerGroups.Remove(layerGroup);
+                    }
+
+                    ImGui.TreePop();
+                }
+            }
+
+            if (ImGui.Button("Add Layer"))
+            {
+                Config.CurrentConfig.LayerGroups.Add(new LayerGroup().Initialize(CurrentState.client.GraphicsDevice, CurrentState.client.guiRenderer));
+            }
         }
 
         private static void RenderAllMicrophoneConfigs()

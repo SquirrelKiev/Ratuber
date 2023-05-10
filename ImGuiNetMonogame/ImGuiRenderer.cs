@@ -29,7 +29,8 @@ namespace ImGuiNET.MonoGame
         private int _indexBufferSize;
 
         // Textures
-        private Dictionary<IntPtr, Texture2D> _loadedTextures;
+        public Dictionary<IntPtr, Texture2D> _loadedTextures;
+        private List<IntPtr> _queuedRemoveableTextures;
 
         private int _textureId;
         private IntPtr? _fontTextureId;
@@ -48,7 +49,8 @@ namespace ImGuiNET.MonoGame
             _game = game ?? throw new ArgumentNullException(nameof(game));
             _graphicsDevice = game.GraphicsDevice;
 
-            _loadedTextures = new Dictionary<IntPtr, Texture2D>();
+            _loadedTextures = new();
+            _queuedRemoveableTextures = new();
 
             _rasterizerState = new RasterizerState()
             {
@@ -110,7 +112,7 @@ namespace ImGuiNET.MonoGame
         /// </summary>
         public virtual void UnbindTexture(IntPtr textureId)
         {
-            _loadedTextures.Remove(textureId);
+            _queuedRemoveableTextures.Add(textureId);
         }
 
         /// <summary>
@@ -133,6 +135,11 @@ namespace ImGuiNET.MonoGame
             ImGui.Render();
 
             unsafe { RenderDrawData(ImGui.GetDrawData()); }
+
+            foreach(var id in _queuedRemoveableTextures)
+            {
+                _loadedTextures.Remove(id);
+            }
         }
 
         #endregion ImGuiRenderer

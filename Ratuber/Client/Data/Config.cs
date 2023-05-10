@@ -13,20 +13,20 @@ namespace Ratuber.Client.Data
 
         public ObservableCollection<MicrophoneConfig> MicConfigs { get; private set; } = new();
 
-        public ObservableCollection<Layer> Layers { get; private set; } = new();
+        public ObservableCollection<LayerGroup> LayerGroups { get; private set; } = new();
         #endregion
 
         public static Config CurrentConfig { get; private set; }
 
         public static event Action OnConfigUpdated;
 
-        private static string basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SquirrelTube");
+        private static string basePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Ratuber");
         private static string configPath = Path.Combine(basePath, "config.json");
 
         public void Initialize()
         {
             MicConfigs.CollectionChanged += CollectionChanged;
-            Layers.CollectionChanged += CollectionChanged;
+            LayerGroups.CollectionChanged += CollectionChanged;
 
             OnConfigUpdated += ConfigUpdated;
 

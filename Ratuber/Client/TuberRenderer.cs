@@ -32,14 +32,20 @@ namespace Ratuber.Client
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (var layer in Config.CurrentConfig.Layers)
+            foreach (var layerGroup in Config.CurrentConfig.LayerGroups)
             {
-                if (layer.ShouldRender())
+                if (layerGroup.ShouldRender())
                 {
-                    var tex = layer.GetNextTexture();
+                    foreach (var layer in layerGroup.layers)
+                    {
+                        if (layer.ShouldRender())
+                        {
+                            var tex = layer.GetNextTexture();
 
-                    if (tex != null)
-                        spriteBatch.Draw(tex, drawRect, tex.Bounds, Color.White);
+                            if (tex != null)
+                                spriteBatch.Draw(tex, drawRect, tex.Bounds, Color.White);
+                        }
+                    }
                 }
             }
         }

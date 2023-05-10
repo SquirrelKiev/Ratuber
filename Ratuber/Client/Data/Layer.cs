@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using ImGuiNET;
 using ImGuiNET.MonoGame;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Ratuber.Client.Data.Rules;
 
@@ -17,14 +18,8 @@ namespace Ratuber.Client.Data
         private GraphicsDevice device;
         private ImGuiRenderer imGuiRenderer;
 
-        public void Initialize(GraphicsDevice device, ImGuiRenderer imGuiRenderer)
+        public Layer Initialize(GraphicsDevice device, ImGuiRenderer imGuiRenderer)
         {
-            if (device is null)
-                throw new ArgumentNullException(nameof(device));
-
-            if (imGuiRenderer is null)
-                throw new ArgumentNullException(nameof(imGuiRenderer));
-
             this.device = device;
             this.imGuiRenderer = imGuiRenderer;
 
@@ -34,6 +29,8 @@ namespace Ratuber.Client.Data
 
                 frame.ReloadTexture();
             }
+
+            return this;
         }
 
         public bool ShouldRender()
@@ -41,6 +38,12 @@ namespace Ratuber.Client.Data
             return RuleEvaluator.EvaluateCompositeRule(rules);
         }
 
+        public void Update(GameTime gameTime)
+        {
+
+        }
+
+        // TODO: Animation
         public Texture2D GetNextTexture()
         {
             if(frames.Count == 0)
@@ -56,9 +59,11 @@ namespace Ratuber.Client.Data
 
         private static void RenderLayerEditor(Layer layer)
         {
+            ImGui.BeginGroup();
+
             if (ImGui.TreeNode($"Rules##rules{layer.GetUniqueId()}"))
             {
-                RuleEditor.RenderCompositeRule(layer.rules);
+                RuleEditor.RenderRule(layer.rules);
 
                 ImGui.TreePop();
             }
@@ -66,18 +71,11 @@ namespace Ratuber.Client.Data
             {
                 for (int i = 0; i < layer.frames.Count; i++)
                 {
-                    RenderFrameEditor(layer, layer.frames[i]);
-
-                    if (ImGui.Button($"Remove Frame##{layer.frames[i].GetUniqueId()}"))
-                    {
-                        layer.frames.RemoveAt(i);
-                    }
+                    RenderFrameEditor(layer, i);
 
                     ImGui.Separator();
                 }
 
-                
-                 
                 if (ImGui.Button($"Add Frame##{layer.GetUniqueId()}"))
                 {
                     layer.frames.Add(new Frame().Initialize(layer.device, layer.imGuiRenderer));
@@ -85,20 +83,25 @@ namespace Ratuber.Client.Data
 
                 ImGui.TreePop();
             }
+
+            ImGui.EndGroup();
         }
 
-        private static void RenderFrameEditor(Layer layer, Frame frame)
+        private static void RenderFrameEditor(Layer layer, int frameIndex)
         {
-            ImGui.BeginGroup();
+            var frame = layer.frames[frameIndex];
 
-            ImGui.Image(frame.ImGuiTexturePointer, new System.Numerics.Vector2(32, 32));
+            ImGui.Text(frameIndex.ToString());
+
+            ImGui.SameLine();
+
+            ImGuiHelpers.MoveElementArrows(layer.frames, frame);
 
             ImGui.SameLine();
 
             ImGui.BeginGroup();
-            ImGui.InputText($"##framePath{frame.GetUniqueId()}", ref frame.texturePath, 32767);
 
-            if (ImGui.Button($"Browse##{frame.GetUniqueId()}"))
+            if (ImGui.ImageButton($"Browse##{frame.GetUniqueId()}", ImGuiHelpers.GetSafeTexture(frame.ImGuiTexturePointer), new System.Numerics.Vector2(32, 32)))
             {
                 var result = NativeFileDialogSharp.Dialog.FileOpen();
 
@@ -109,6 +112,44 @@ namespace Ratuber.Client.Data
                     frame.ReloadTexture();
                 }
             }
+
+            ImGui.SameLine();
+
+            ImGui.BeginGroup();
+
+            //ImGui.InputText($"##framePath{frame.GetUniqueId()}", ref frame.texturePath, 32767);
+
+            ImGui.SetNextItemWidth(ImGui.GetFontSize() * 12);
+
+            if (frame.isFrameLengthRandom)
+            {
+                ImGui.InputFloat2($"##frameRandomMinMax", ref frame.randomMinMax);
+
+                frame.randomMinMax = new System.Numerics.Vector2(MathF.Max(frame.randomMinMax.X, 1), MathF.Max(frame.randomMinMax.Y, 1));
+            }
+            else
+            {
+                ImGui.InputFloat($"##frameLength{frame.GetUniqueId()}", ref frame.frameLength, 1, 5);
+
+                frame.frameLength = MathF.Max(frame.frameLength, 1);
+            }
+
+            ImGui.SameLine();
+
+            ImGui.Checkbox($"##isFrameLengthRandom{frame.GetUniqueId()}", ref frame.isFrameLengthRandom);
+
+            ImGui.SameLine();
+
+            ImGuiHelpers.HelpTooltip(
+@"How long the frame will stay on screen in milliseconds. 
+When checked, the frame time will be a random number between the first number (min) and the second number (max).
+");
+
+            if (ImGui.Button($"Remove Frame##{frame.GetUniqueId()}"))
+            {
+                layer.frames.RemoveAt(frameIndex);
+            }
+
             ImGui.EndGroup();
 
             ImGui.EndGroup();

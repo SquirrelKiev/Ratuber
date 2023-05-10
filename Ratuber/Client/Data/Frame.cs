@@ -3,13 +3,23 @@ using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Numerics;
 
 namespace Ratuber.Client.Data
 {
     public class Frame : UniqueObject, IDisposable
     {
         public string texturePath = string.Empty;
+
+        /// <summary>
+        /// How long the frame will last in milliseconds.
+        /// </summary>
         public float frameLength;
+
+        public bool isFrameLengthRandom;
+
+        public Vector2 randomMinMax;
+
         private GraphicsDevice graphicsDevice;
         private ImGuiRenderer imGuiRenderer;
 
@@ -27,6 +37,7 @@ namespace Ratuber.Client.Data
             return this;
         }
 
+        // TODO: Cache textures/path for perf, adding layers/groups is too slow rn
         public void ReloadTexture()
         {
             FreeTextures();

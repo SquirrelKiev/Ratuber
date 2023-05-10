@@ -1,35 +1,13 @@
-﻿using Newtonsoft.Json.Converters;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Ratuber.Client.Data.Rules
 {
-    public enum Operator
+
+    [JsonConverter(typeof(RuleJsonConverter))]
+    public abstract class Rule : UniqueObject
     {
-        Equal,
-        NotEqual,
-        GreaterThan,
-        LessThan,
-        GreaterThanOrEqual,
-        LessThanOrEqual
-    }
-
-    public enum LogicGate
-    {
-        And,
-        Or,
-        Not
-    }
-
-    public class SingleRule : Rule
-    {
-        [JsonProperty("condition")]
-        public string Condition { get; set; } = string.Empty;
-
-        [JsonProperty("operator")]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public Operator Operator { get; set; }
-
-        [JsonProperty("result")]
-        public string Result { get; set; } = string.Empty;
+        [JsonProperty]
+        protected RuleType ruleType;
     }
 }
