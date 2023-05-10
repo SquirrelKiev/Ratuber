@@ -9,7 +9,8 @@ namespace Ratuber.Client.Data
 {
     public class Frame : UniqueObject, IDisposable
     {
-        public string texturePath = string.Empty;
+        [JsonProperty]
+        private string texturePath = string.Empty;
 
         /// <summary>
         /// How long the frame will last in milliseconds.
@@ -29,16 +30,28 @@ namespace Ratuber.Client.Data
         [JsonIgnore]
         public IntPtr ImGuiTexturePointer { get; private set; }
 
-        public Frame Initialize(GraphicsDevice graphicsDevice, ImGuiRenderer imGuiRenderer)
+        public Frame Initialize(GraphicsDevice graphicsDevice, ImGuiRenderer imGuiRenderer, bool forceRefresh = true)
         {
             this.graphicsDevice = graphicsDevice;
             this.imGuiRenderer = imGuiRenderer;
 
+            SetPath(texturePath, forceRefresh);
+
             return this;
         }
 
+        public void SetPath(string path, bool forceRefresh = false)
+        {
+            if(texturePath == path && !forceRefresh)
+                return; 
+            
+            texturePath = path;
+
+            ReloadTexture();
+        }
+
         // TODO: Cache textures/path for perf, adding layers/groups is too slow rn
-        public void ReloadTexture()
+        private void ReloadTexture()
         {
             FreeTextures();
 
@@ -63,6 +76,16 @@ namespace Ratuber.Client.Data
 
             if (ImGuiTexturePointer != IntPtr.Zero)
                 imGuiRenderer.UnbindTexture(ImGuiTexturePointer);
+        }
+
+        public void CalculateFrameLength()
+        {
+            if (!isFrameLengthRandom)
+                return;
+
+            var range = randomMinMax.Y - randomMinMax.X;
+
+            frameLength = (CurrentState.random.NextSingle() * range) + randomMinMax.X;
         }
 
         ~Frame()

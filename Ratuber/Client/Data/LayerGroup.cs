@@ -23,14 +23,14 @@ namespace Ratuber.Client.Data
         private GraphicsDevice device;
         private ImGuiRenderer imGuiRenderer;
 
-        public LayerGroup Initialize(GraphicsDevice device, ImGuiRenderer imGuiRenderer)
+        public LayerGroup Initialize(GraphicsDevice device, ImGuiRenderer imGuiRenderer, bool forceRefresh = true)
         {
             this.device = device;
             this.imGuiRenderer = imGuiRenderer;
 
             foreach(var layer in layers)
             {
-                layer.Initialize(device, imGuiRenderer);
+                layer.Initialize(device, imGuiRenderer, forceRefresh);
             }
 
             return this;

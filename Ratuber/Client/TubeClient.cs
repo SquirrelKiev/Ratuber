@@ -11,11 +11,13 @@ namespace Ratuber.Client
 {
     public class TubeClient : Game
     {
+        public ImGuiRenderer GuiRenderer { get; private set; }
+        private TuberRenderer tuberRenderer;
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
-        public ImGuiRenderer guiRenderer { get; private set; }
-        private TuberRenderer tuberRenderer;
+        private bool firstTimeInit = true;
 
         public TubeClient()
         {
@@ -42,13 +44,13 @@ namespace Ratuber.Client
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            guiRenderer = new ImGuiRenderer(this);
+            GuiRenderer = new ImGuiRenderer(this);
 
             tuberRenderer = new TuberRenderer(this);
 
-            guiRenderer.RebuildFontAtlas();
+            GuiRenderer.RebuildFontAtlas();
 
-            ImGuiHelpers.Initialize(GraphicsDevice, guiRenderer);
+            ImGuiHelpers.Initialize(GraphicsDevice, GuiRenderer);
 
             Config.LoadConfig();
 
@@ -56,8 +58,10 @@ namespace Ratuber.Client
             {
                 foreach (var layer in Config.CurrentConfig.LayerGroups)
                 {
-                    layer.Initialize(GraphicsDevice, guiRenderer);
+                    layer.Initialize(GraphicsDevice, GuiRenderer, firstTimeInit);
                 }
+
+                firstTimeInit = false;
             };
 
             Config.CurrentConfig.Initialize();
@@ -100,11 +104,11 @@ namespace Ratuber.Client
 
             base.Draw(gameTime);
 
-            guiRenderer.BeforeLayout(gameTime);
+            GuiRenderer.BeforeLayout(gameTime);
 
             ImGuiConfigWindow.ConfigLayout();
 
-            guiRenderer.AfterLayout();
+            GuiRenderer.AfterLayout();
         }
     }
 }

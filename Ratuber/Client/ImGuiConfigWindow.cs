@@ -59,7 +59,7 @@ namespace Ratuber.Client
 
             if (ImGui.Button("Add Layer"))
             {
-                Config.CurrentConfig.LayerGroups.Add(new LayerGroup().Initialize(CurrentState.client.GraphicsDevice, CurrentState.client.guiRenderer));
+                Config.CurrentConfig.LayerGroups.Add(new LayerGroup().Initialize(CurrentState.client.GraphicsDevice, CurrentState.client.GuiRenderer));
             }
         }
 

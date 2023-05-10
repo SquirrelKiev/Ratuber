@@ -15,19 +15,20 @@ namespace Ratuber.Client.Data
 
         public CompositeRule rules = new();
 
+        private int frameIndex = 0;
+        private TimeSpan lastFrame;
+
         private GraphicsDevice device;
         private ImGuiRenderer imGuiRenderer;
 
-        public Layer Initialize(GraphicsDevice device, ImGuiRenderer imGuiRenderer)
+        public Layer Initialize(GraphicsDevice device, ImGuiRenderer imGuiRenderer, bool forceRefresh = true)
         {
             this.device = device;
             this.imGuiRenderer = imGuiRenderer;
 
             foreach(var frame in frames)
             {
-                frame.Initialize(device, imGuiRenderer);
-
-                frame.ReloadTexture();
+                frame.Initialize(device, imGuiRenderer, forceRefresh);
             }
 
             return this;
@@ -40,7 +41,16 @@ namespace Ratuber.Client.Data
 
         public void Update(GameTime gameTime)
         {
+            if (frames.Count == 0)
+                return;
 
+            if(lastFrame.TotalMilliseconds + frames[frameIndex].frameLength <= gameTime.TotalGameTime.TotalMilliseconds)
+            {
+                frameIndex = (frameIndex + 1) % (frames.Count);
+
+                frames[frameIndex].CalculateFrameLength();
+                lastFrame = gameTime.TotalGameTime;
+            }
         }
 
         // TODO: Animation
@@ -49,7 +59,7 @@ namespace Ratuber.Client.Data
             if(frames.Count == 0)
                 return null;
 
-            return frames[0].Texture;
+            return frames[frameIndex].Texture;
         }
 
         public void RenderLayerEditor()
@@ -107,9 +117,7 @@ namespace Ratuber.Client.Data
 
                 if (!result.IsError && !result.IsCancelled)
                 {
-                    frame.texturePath = result.Path;
-
-                    frame.ReloadTexture();
+                    frame.SetPath(result.Path);
                 }
             }
 
